@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <friend-contact msg="Task App"/>
+    <friend-contact/>
   </div>
 </template>
 
