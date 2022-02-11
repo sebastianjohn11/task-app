@@ -1,5 +1,6 @@
 <template>
   <div>
+    <button>Add Product</button>
     <div v-for="(product, index) in productList" :key="index">
       <product-description :product="product" @update-product-list="updateProductList"/>
     </div>
