@@ -4,6 +4,7 @@ import Home from '../views/Home.vue'
 import About from '../views/About.vue'
 import ProductList from '../components/ProductList.vue'
 import ProductListOld from '../components/ProductListOld.vue'
+import Todo from '../views/Todo.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,11 @@ const routes = [
     path: '/products-old',
     name: 'ProductOld',
     component: ProductListOld
+  },
+  {
+    path: '/todo',
+    name: 'Todo',
+    component: Todo
   }
 ]
 
