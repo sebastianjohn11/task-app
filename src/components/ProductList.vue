@@ -1,5 +1,6 @@
 <template>
   <div>
+    <button class="btn-style">Add Product</button>
     <div v-for="(product, index) in productList" :key="index">
       <product-description :product="product" @update-product-list="updateProductList"/>
     </div>
@@ -42,3 +43,9 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.btn-style {
+  color: blue;
+}
+</style>
