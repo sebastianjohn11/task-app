@@ -1,37 +1,90 @@
 <template>
-    <div>
-       <button @click="addList"></button><!--button to display dialoge input texts!-->
-        <dialog open v-if="AddList==true">
-            <form @submit.prevent="submitForm">
-                <div>
-                <label for="task">Task</label>
-                <input type="text" id="task" v-model="gotTask"/>
-                </div>
-                <label for ="description">description</label>
-                <input textarea="text" id="description"  v-model="gotDescription"/>
-                <div>
-                <label for="assiginTo">Assigin to</label>
-                <input type= "text" id="assiginTo" row="3"  v-model="gotAssiginTo"/>
-                </div>
-                <button type="enter">update</button>
-            </form>
-        </dialog>
-    </div>
+  <v-dialog v-model="showForm">
+    <v-card>
+      <v-card-title class="text-h5 grey lighten-2">
+        Add Todo Task
+      </v-card-title>
+      <v-card-text>
+        <form @submit.prevent="submitForm">
+          <v-text-field
+            v-model="taskInput.task"
+            label="Task name"
+            clearable
+            outlined
+          >
+          </v-text-field>
+           <v-textarea
+            v-model="taskInput.description"
+            label="Description"
+            outlined
+          >
+           </v-textarea>
+            <v-select
+            v-model="taskInput.assignedTo"
+            :items="items"
+            label="Select"
+            return-object
+            single-line
+          ></v-select>
+            <button type="enter">update</button>
+        </form>
+      </v-card-text>
+      <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="showForm = false"
+          >
+            Close
+          </v-btn>
+          <v-btn
+            color="blue darken-1"
+            text
+            @click="submitForm"
+          >
+            Save
+          </v-btn>
+        </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
 export default {
+  props: {
+    myeditdata: {
+      type: Object,
+      required: true
+    }
+  },
   data () {
     return {
-      gotTask: '',
-      gotDescription: '',
-      gotAssiginTo: ' ',
-      addList: true
+      taskInput: {
+        task: '',
+        description: '',
+        assignedTo: ''
+      },
+      showForm: true,
+      items: ['boney', 'dijo', 'seban']
     }
+  },
+  watch: {
+    showForm: function (val) {
+      if (val === false) {
+        this.$emit('closed')
+      }
+    }
+  },
+  mounted () {
+    this.taskInput.task = this.myeditdata.task
+    this.taskinput.assignedTo = this.myeditdata.assignedTo
+    this.taskinput.description = this.myeditdata.description
   },
   methods: {
     submitForm () {
-      this.$emit('submit-form', this.gotTask, this.gotDescription, this.gotAssiginTo)
+      this.$emit('submit-form', this.taskInput)
+      this.showForm = false
     }
   }
 }

@@ -1,8 +1,8 @@
 <template>
-  <ul>
-            <v-card
-                max-width="950"
-                class="mx-auto">
+  <div>
+    <v-btn @click="onShowForm" color="blue">Add Todo</v-btn><!--button to display dialoge input texts!-->
+             <v-card
+                max-width="950" class="mx-auto">
                 <v-list>
                     <v-list-item v-for="(todo, index) in todos" :key="index">
                         Task: {{ todo.task }}
@@ -12,15 +12,54 @@
                         assigned to: {{ todo.assignedTo }}
                         <br>
                         <br>
-                        <button @ click="delete">DELETE</button>
-                        <!--  !-->
-
+                        <!-- v-btn @click="deleteTask(index)" color="red">DELETE</v-btn> !-->
+                          <v-dialog
+                            v-model="dialog"
+                            persistent
+                            max-width="290">
+                            <template v-slot:activator="{ on, attrs }">
+                              <v-spacer />
+                              <v-btn
+                                color="primary"
+                                dark
+                                v-bind="attrs"
+                                v-on="on"
+                                @click="deleteTask(index)"
+                              >
+                                  DELETE
+                              </v-btn>
+                              <v-btn @click="editTask(todo)">Edit</v-btn>
+                            </template>
+                            <v-card>
+                              <v-card-title class="text-h5">
+                                want to delete this?
+                              </v-card-title>
+                              <v-card-text>deleting this will remove it</v-card-text>
+                              <v-card-actions>
+                                <v-spacer></v-spacer>
+                                <v-btn
+                                  color="green darken-1"
+                                  text
+                                  @click="dialog = false"
+                                >
+                                  cancel
+                                </v-btn>
+                                <v-btn
+                                  color="green darken-1"
+                                  text
+                                  @click="deleteConfirmed()"
+                                >
+                                delete
+                                </v-btn>
+                              </v-card-actions>
+                            </v-card>
+                          </v-dialog>
                     </v-list-item>
                 </v-list>
-                <the-form @submit-form="submittedForm">
-                        </the-form>
+                <the-form :myeditdata="edits" @submit-form="submittedForm" v-if="showForm" @closed="showForm = false"> </the-form>
+
             </v-card>
-  </ul>
+  </div>
 </template>
 <script>
 import TheForm from './TheForm.vue'
@@ -31,28 +70,39 @@ export default {
   name: 'TodoList',
   data () {
     return {
-      todos: [
-        {
-          id: '',
-          task: '',
-          description: '',
-          assignedTo: ''
-        }
-      ]
+      todos: [],
+      showForm: false,
+      dialog: false,
+      todoIndex: '',
+      copyTodos: [],
+      edits: {
+        task: '',
+        description: '',
+        assignedTo: ''
+      }
+
     }
   },
   methods: {
-    submittedForm (gotTask, gotDescription, gotAssiginTo) {
-      const newList = {
-        task: gotTask,
-        description: gotDescription,
-        assignedTo: gotAssiginTo
-      }
-      this.todos.push(newList)
+    submittedForm (taskInput) {
+      this.todos.push(taskInput)
     },
-    delete () {
-      // eslint-disable-next-line no-self-compare
-      this.todos = this.todos.filter(index => index !== index)
+    deleteTask (index) {
+      this.dialog = true
+      this.todoIndex = index
+    },
+    deleteConfirmed () {
+      this.todos.splice(this.todoIndex, 1)
+      this.dialog = false
+    },
+    onShowForm () {
+      this.showForm = true
+    },
+    editTask (todo) {
+      this.edits.task = todo.task
+      this.edits.assignedTo = todo.assignedTo
+      this.edits.description = todo.description
+      this.showForm = true
     }
   }
 }
