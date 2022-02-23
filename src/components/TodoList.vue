@@ -14,14 +14,44 @@
           </td>
           <td>
             <v-spacer></v-spacer>
-            <v-btn color="#FF1744" small @click="deleteTask(item)">
-              Delete
-            </v-btn>
+            <!-- button -->
+            <v-dialog
+             v-model="dialog"
+             persistent
+              max-width="290">
+              <template v-slot:activator="{ on, attrs }">
+              <v-btn color="red" small
+              v-bind="attrs"
+              v-on="on">
+              DELETE
+              </v-btn>
+              </template>
+              <v-card>
+              <v-card-title class="text-h5">
+                DO you want to detele this ?
+              </v-card-title>
+              <v-card-text  text-color="orange">think again before u delete this.Once done ,you cannot retrieve it.
+              </v-card-text>
+              <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+              color="green"
+              @click="dialog=false">
+              CLOSE
+              </v-btn>
+              <v-btn
+              color="red"
+              @click="dialog = deleteTask (item)">
+              confirm
+              </v-btn>
+             </v-card-actions>
+             </v-card>
+            </v-dialog>
           </td>
         </tr>
       </template>
     </v-data-table>
-      <the-form ref="test" @submit-form="submittedForm" @submit-edit="editedForm" v-if="showForm" @closed="showForm = false"> </the-form>
+      <the-form ref="test" @submit-form="submittedForm" @submit-edit="editedForm" v-model="showForm" @closed="showForm = false"> </the-form>
   </div>
 </template>
 <script>
@@ -43,8 +73,6 @@ export default {
       ],
       showForm: false,
       dialog: false,
-      todoIndex: '',
-      editIndex: '',
       edits: {
         task: '',
         description: '',
@@ -56,17 +84,11 @@ export default {
     submittedForm (taskInput) {
       this.todos.push(taskInput)
     },
-    editedForm (taskInput) {
-      this.todos.splice(this.editIndex, 1, {
-        task: this.item.task,
-        description: this.item.description,
-        assignedTo: this.item.assignedTo
-      })
-    },
     deleteTask (item) {
       const index = this.todos.indexOf(item)
       confirm('Are you sure you want to delete this assigned task?') &&
-        this.todos.splice(index, 1)
+      this.todos.splice(index, 1)
+      this.dialoge = true
     },
     deleteConfirmed () {
       this.todos.splice(this.todoIndex, 1)
@@ -77,6 +99,13 @@ export default {
     },
     editTask (item, index) {
       this.$refs.test.editForm(item, index)
+    },
+    editedForm (taskInput) {
+      this.todos.splice(taskInput.index, 1, {
+        task: taskInput.task,
+        description: taskInput.description,
+        assignedTo: taskInput.assignedTo
+      })
     }
   }
 }

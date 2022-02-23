@@ -27,7 +27,6 @@
             return-object
             single-line
           ></v-select>
-            <button type="enter">update</button>
         </form>
       </v-card-text>
       <v-card-actions>
@@ -66,9 +65,21 @@ export default {
       assignedTo: '',
       id: '',
       index: '',
-      edit: false
+      edit: false,
+      items: ['dijo', 'sebastaian', 'boney']
     }
   },
+  computed: {
+    showForm: {
+      get: function () {
+        return this.value
+      },
+      set: function (value) {
+        this.$emit('input', value)
+      }
+    }
+  },
+
   methods: {
     submitForm () {
       if (this.edit === false) {
@@ -97,7 +108,7 @@ export default {
       this.index = ''
     },
     editForm (item, index) {
-      this.dialog = true
+      this.showForm = true
       this.edit = true
       this.task = item.task
       this.description = item.description
