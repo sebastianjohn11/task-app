@@ -54,7 +54,8 @@
 export default {
   props: {
     value: {
-      type: Object,
+      type: Boolean,
+      default: false,
       required: true
     }
   },
@@ -100,7 +101,7 @@ export default {
       }
     },
     close () {
-      this.dialog = false
+      this.showForm = false
       this.task = ''
       this.description = ''
       this.assignedTo = ''
