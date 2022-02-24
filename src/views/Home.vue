@@ -1,18 +1,15 @@
 <template>
-  <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <friend-contact/>
-  </div>
+  <hello-world />
 </template>
 
 <script>
-// @ is an alias to /src
-import FriendContact from '@/components/FriendContact.vue'
+import HelloWorld from '../components/HelloWorld'
 
 export default {
   name: 'Home',
+
   components: {
-    FriendContact
+    HelloWorld
   }
 }
 </script>
