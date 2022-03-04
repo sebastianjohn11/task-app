@@ -91,7 +91,7 @@ export default {
         })
         this.close()
       } else {
-        this.$emit('submit-edit', {
+        this.$store.dispatch('submitEdit', {
           task: this.task,
           description: this.description,
           assignedTo: this.assignedTo,

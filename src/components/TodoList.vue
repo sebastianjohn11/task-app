@@ -43,7 +43,7 @@
              </v-card-actions>
              </v-card>
             </v-dialog>
-      <the-form ref="test" @submit-form="submittedForm" @submit-edit="editedForm" v-model="showForm" @closed="showForm = false"> </the-form>
+      <the-form ref="test"  v-model="showForm" @closed="showForm = false"> </the-form>
   </div>
 </template>
 <script>
@@ -73,15 +73,12 @@ export default {
     }
   },
   methods: {
-    submittedForm (taskInput) {
-      this.todos.push(taskInput)
-    },
     deleteTask (index) {
       this.dialog = true
       this.todoIndex = index
     },
     deleteConfirmed () {
-      this.todos.splice(this.todoIndex, 1)
+      this.$store.dispatch('deleteList', this.todoIndex)
       this.dialog = false
     },
     onShowForm () {
@@ -89,13 +86,6 @@ export default {
     },
     editTask (item, index) {
       this.$refs.test.editForm(item, index)
-    },
-    editedForm (taskInput) {
-      this.todos.splice(taskInput.index, 1, {
-        task: taskInput.task,
-        description: taskInput.description,
-        assignedTo: taskInput.assignedTo
-      })
     }
   }
 }
