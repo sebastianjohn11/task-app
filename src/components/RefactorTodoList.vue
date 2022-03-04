@@ -55,6 +55,7 @@ export default {
   name: 'TodoList',
   data () {
     return {
+      todos: [],
       headers: [
         { text: 'Task', align: 'start', value: 'task' },
         { text: 'Description', value: 'description' },
@@ -65,11 +66,6 @@ export default {
       showForm: false,
       dialog: false,
       todoIndex: ''
-    }
-  },
-  computed: {
-    todos () {
-      return this.$store.getters.showTodos
     }
   },
   methods: {
