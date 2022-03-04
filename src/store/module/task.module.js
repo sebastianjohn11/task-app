@@ -1,4 +1,6 @@
-export default {
+
+const task = {
+  nampespace: true,
   state () {
     return {
       todos: []
@@ -7,14 +9,9 @@ export default {
   },
   mutations: {
     addValues (state, payload) {
-      const newIteam = {
-        task: payload.task,
-        description: payload.description,
-        assignedTo: payload.assignedTo
-      }
-      state.todos.push(newIteam)
+      state.todos.push(payload)
     },
-    submitEdit (state, payload) {
+    editValues (state, payload) {
       state.todos.splice(payload.index, 1, {
         task: payload.task,
         description: payload.description,
@@ -38,5 +35,5 @@ export default {
     }
 
   }
-
 }
+export default task

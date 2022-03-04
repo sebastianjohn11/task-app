@@ -13,7 +13,7 @@
             </v-btn>
           </td>
           <td>
-            <v-btn color="red" small @click="deleteTask(index)">
+            <v-btn color="rednpm install --save vuex@" small @click="deleteTask(index)">
               Delete
             </v-btn>
           </td>
@@ -55,7 +55,6 @@ export default {
   name: 'TodoList',
   data () {
     return {
-      todos: [],
       headers: [
         { text: 'Task', align: 'start', value: 'task' },
         { text: 'Description', value: 'description' },
@@ -68,10 +67,13 @@ export default {
       todoIndex: ''
     }
   },
+  computed: {
+    todos () {
+      return this.$store.getters['task/showTodos']
+    }
+  },
   methods: {
-    submittedForm (taskInput) {
-      this.todos.push(taskInput)
-    },
+
     deleteTask (index) {
       this.dialog = true
       this.todoIndex = index
@@ -81,18 +83,18 @@ export default {
       this.dialog = false
     },
     onShowForm () {
-      this.showForm = true
+      this.$store.state.showForm = true
     },
     editTask (item, index) {
-      this.$refs.test.editForm(item, index)
-    },
-    editedForm (taskInput) {
-      this.todos.splice(taskInput.index, 1, {
-        task: taskInput.task,
-        description: taskInput.description,
-        assignedTo: taskInput.assignedTo
-      })
+      this.$store.state.showForm = true
     }
+    // editedForm (taskInput) {
+    //  this.todos.splice(taskInput.index, 1, {
+    //    task: taskInput.task,
+    //    description: taskInput.description,
+    //    assignedTo: taskInput.assignedTo
+    //  })
+    // }
   }
 }
 </script>

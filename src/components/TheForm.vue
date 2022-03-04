@@ -1,4 +1,3 @@
-/* eslint-disable no-sequences */
 <template>
   <v-dialog v-model="showForm">
     <v-card>
@@ -84,14 +83,14 @@ export default {
   methods: {
     submitForm () {
       if (this.edit === false) {
-        this.$emit('submit-form', {
+        this.$store.dispatch('submitForm', { // action //
           task: this.task,
           description: this.description,
           assignedTo: this.assignedTo
         })
         this.close()
       } else {
-        this.$emit('submit-edit', {
+        this.$store.dispatch('submitEdit', { // action //
           task: this.task,
           description: this.description,
           assignedTo: this.assignedTo,
