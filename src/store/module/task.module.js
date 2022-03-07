@@ -1,8 +1,9 @@
 const task = {
-  nameSpaced: true,
+  namespaced: false,
   state () {
     return {
-      todos: []
+      todos: [],
+      items: {}
     }
   },
   mutations: {
@@ -13,27 +14,40 @@ const task = {
       state.todos.splice(payload, 1)
     },
     edit (state, payload) {
-      state.todos.splice(payload.index, 1, {
-        task: payload.task,
-        description: payload.description,
-        assignedTo: payload.assignedTo
-      })
+      state.todos.splice(payload.index, 1,
+        payload
+      )
+    },
+    formEdit (state, payload) {
+      state.items = payload
+    },
+    clearItems (state) { // clearing the items
+      state.items = {}
     }
   },
   actions: {
     submitForm (context, payload) {
       context.commit('addValues', payload)
     },
-    deleteList (context, payaload) {
-      context.commit('delete', payaload)
+    deleteList (context, payload) {
+      context.commit('delete', payload)
     },
     submitEdit (context, payload) {
       context.commit('edit', payload)
+    },
+    editForm (context, payload) {
+      context.commit('formEdit', payload)
+    },
+    clearItems (context) {
+      context.commit('clearItems') // actions to clear items
     }
   },
   getters: {
     showTodos (state) {
       return state.todos
+    },
+    showEdits (state) {
+      return state.items
     }
   }
 }

@@ -22,7 +22,7 @@
            </v-textarea>
             <v-select
             v-model="assignedTo"
-            :items="items"
+            :items="assignees"
             label="Select"
             return-object
             single-line
@@ -34,7 +34,7 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="showForm = false"
+            @click="close"
           >
             Close
           </v-btn>
@@ -67,7 +67,7 @@ export default {
       id: '',
       index: '',
       edit: false,
-      items: ['dijo', 'sebastaian', 'boney']
+      assignees: ['dijo', 'sebastaian', 'boney']
     }
   },
   computed: {
@@ -78,7 +78,23 @@ export default {
       set: function (value) {
         this.$emit('input', value)
       }
+    },
+    items () {
+      return this.$store.getters.showEdits //
     }
+  },
+  watch: { // watchers
+    items: function (newValue) {
+      if (Object.keys(newValue).length !== 0) {
+        this.task = newValue.task
+        this.description = newValue.task
+        this.assignedTo = newValue.assignedTo
+        this.edit = true
+        this.index = newValue.index
+        this.showForm = true
+      }
+    }
+
   },
 
   methods: {
@@ -101,20 +117,13 @@ export default {
       }
     },
     close () {
+      this.$store.dispatch('clearItems')
       this.showForm = false
       this.task = ''
       this.description = ''
       this.assignedTo = ''
       this.edit = false
       this.index = ''
-    },
-    editForm (item, index) {
-      this.showForm = true
-      this.edit = true
-      this.task = item.task
-      this.description = item.description
-      this.assignedTo = item.assignedTo
-      this.index = index
     }
   }
 }

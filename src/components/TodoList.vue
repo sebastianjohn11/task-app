@@ -85,7 +85,13 @@ export default {
       this.showForm = true
     },
     editTask (item, index) {
-      this.$refs.test.editForm(item, index)
+      this.$store.dispatch('editForm', {
+        task: item.task,
+        description: item.description,
+        assignedTo: item.assignedTo,
+        index: index
+      })
+      // this.$refs.test.editForm(item, index)
     }
   }
 }
