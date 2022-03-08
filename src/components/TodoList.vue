@@ -20,37 +20,17 @@
         </tr>
       </template>
     </v-data-table>
-    <v-dialog
-        v-model="dialog"
-             persistent
-              max-width="290">
-              <v-card>
-              <v-card-title class="text-h5">
-                DO you want to detele this ?
-              </v-card-title>
-              <v-card-actions>
-              <v-spacer></v-spacer>
-              <v-btn
-              color="green"
-              @click="dialog=false">
-              Cancel
-              </v-btn>
-              <v-btn
-              color="red"
-              @click="deleteConfirmed ()">
-              Delete
-              </v-btn>
-             </v-card-actions>
-             </v-card>
-            </v-dialog>
-      <the-form ref="test"  v-model="showForm" @closed="showForm = false"> </the-form>
+    <delete-dialog @closed="showDeleteDialog = false"  @deleteconfirmed ="deleteIt()" v-if="showDeleteDialog" ></delete-dialog>
+      <the-form v-model="showForm" @closed="showForm = false"> </the-form>
   </div>
 </template>
 <script>
 import TheForm from './TheForm.vue'
+import DeleteDialog from './DeleteDialog.vue'
 export default {
   components: {
-    TheForm
+    TheForm,
+    DeleteDialog
   },
   name: 'TodoList',
   data () {
@@ -63,7 +43,7 @@ export default {
         { text: 'Delete', value: 'delete', sortable: false }
       ],
       showForm: false,
-      dialog: false,
+      showDeleteDialog: false,
       todoIndex: ''
     }
   },
@@ -72,14 +52,14 @@ export default {
       return this.$store.getters.showTodos
     }
   },
-  methods: {
+  methods: { // delete
     deleteTask (index) {
-      this.dialog = true
+      this.showDeleteDialog = true
       this.todoIndex = index
     },
-    deleteConfirmed () {
+    deleteIt () {
       this.$store.dispatch('deleteList', this.todoIndex)
-      this.dialog = false
+      this.showDeleteDialog = false
     },
     onShowForm () {
       this.showForm = true
