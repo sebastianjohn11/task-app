@@ -1,4 +1,3 @@
-/* eslint-disable no-sequences */
 <template>
   <v-dialog v-model="showForm">
     <v-card>
@@ -22,7 +21,7 @@
            </v-textarea>
             <v-select
             v-model="assignedTo"
-            :items="assignees"
+            :items="items"
             label="Select"
             return-object
             single-line
@@ -34,7 +33,7 @@
           <v-btn
             color="blue darken-1"
             text
-            @click="close"
+            @click="showForm = false"
           >
             Close
           </v-btn>
@@ -67,7 +66,7 @@ export default {
       id: '',
       index: '',
       edit: false,
-      assignees: ['dijo', 'sebastaian', 'boney']
+      items: ['dijo', 'sebastaian', 'boney']
     }
   },
   computed: {
@@ -78,36 +77,20 @@ export default {
       set: function (value) {
         this.$emit('input', value)
       }
-    },
-    items () {
-      return this.$store.getters.showEdits //
     }
-  },
-  watch: { // watchers
-    items: function (newValue) {
-      if (Object.keys(newValue).length !== 0) {
-        this.task = newValue.task
-        this.description = newValue.task
-        this.assignedTo = newValue.assignedTo
-        this.edit = true
-        this.index = newValue.index
-        this.showForm = true
-      }
-    }
-
   },
 
   methods: {
     submitForm () {
       if (this.edit === false) {
-        this.$store.dispatch('submitForm', {
+        this.$emit('submit-form', {
           task: this.task,
           description: this.description,
           assignedTo: this.assignedTo
         })
         this.close()
       } else {
-        this.$store.dispatch('submitEdit', {
+        this.$emit('submit-edit', {
           task: this.task,
           description: this.description,
           assignedTo: this.assignedTo,
@@ -117,13 +100,20 @@ export default {
       }
     },
     close () {
-      this.$store.dispatch('clearItems')
       this.showForm = false
       this.task = ''
       this.description = ''
       this.assignedTo = ''
       this.edit = false
       this.index = ''
+    },
+    editForm (item, index) {
+      this.showForm = true
+      this.edit = true
+      this.task = item.task
+      this.description = item.description
+      this.assignedTo = item.assignedTo
+      this.index = index
     }
   }
 }

@@ -20,21 +20,42 @@
         </tr>
       </template>
     </v-data-table>
-    <delete-dialog @closed="showDeleteDialog = false"  @deleteconfirmed ="deleteIt()" v-if="showDeleteDialog" ></delete-dialog>
-      <the-form v-model="showForm" @closed="showForm = false"> </the-form>
+    <v-dialog
+        v-model="dialog"
+             persistent
+              max-width="290">
+              <v-card>
+              <v-card-title class="text-h5">
+                DO you want to detele this ?
+              </v-card-title>
+              <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn
+              color="green"
+              @click="dialog=false">
+              Cancel
+              </v-btn>
+              <v-btn
+              color="red"
+              @click="deleteConfirmed ()">
+              Delete
+              </v-btn>
+             </v-card-actions>
+             </v-card>
+            </v-dialog>
+      <the-form ref="test" @submit-form="submittedForm" @submit-edit="editedForm" v-model="showForm" @closed="showForm = false"> </the-form>
   </div>
 </template>
 <script>
 import TheForm from './TheForm.vue'
-import DeleteDialog from './DeleteDialog.vue'
 export default {
   components: {
-    TheForm,
-    DeleteDialog
+    TheForm
   },
   name: 'TodoList',
   data () {
     return {
+      todos: [],
       headers: [
         { text: 'Task', align: 'start', value: 'task' },
         { text: 'Description', value: 'description' },
@@ -43,35 +64,34 @@ export default {
         { text: 'Delete', value: 'delete', sortable: false }
       ],
       showForm: false,
-      showDeleteDialog: false,
+      dialog: false,
       todoIndex: ''
     }
   },
-  computed: {
-    todos () {
-      return this.$store.getters.showTodos
-    }
-  },
-  methods: { // delete
+  methods: {
+    submittedForm (taskInput) {
+      this.todos.push(taskInput)
+    },
     deleteTask (index) {
-      this.showDeleteDialog = true
+      this.dialog = true
       this.todoIndex = index
     },
-    deleteIt () {
-      this.$store.dispatch('deleteList', this.todoIndex)
-      this.showDeleteDialog = false
+    deleteConfirmed () {
+      this.todos.splice(this.todoIndex, 1)
+      this.dialog = false
     },
     onShowForm () {
       this.showForm = true
     },
     editTask (item, index) {
-      this.$store.dispatch('editForm', {
-        task: item.task,
-        description: item.description,
-        assignedTo: item.assignedTo,
-        index: index
+      this.$refs.test.editForm(item, index)
+    },
+    editedForm (taskInput) {
+      this.todos.splice(taskInput.index, 1, {
+        task: taskInput.task,
+        description: taskInput.description,
+        assignedTo: taskInput.assignedTo
       })
-      // this.$refs.test.editForm(item, index)
     }
   }
 }
