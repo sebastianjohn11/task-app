@@ -56,7 +56,6 @@ export default {
       product: '',
       description: '',
       price: '',
-      id: ' ',
       index: '',
       edit: false
     }
@@ -71,6 +70,7 @@ export default {
       }
     },
     items () {
+      console.log('working 1')
       return this.$store.getters['product/showEdits'] // geters does not exist on type
     }
   },
@@ -103,6 +103,7 @@ export default {
           index: this.index
         })
         this.close()
+        console.log('working 2')
       }
     },
     close () {
@@ -110,7 +111,8 @@ export default {
         this.showForm = false,
         this.product = '',
         this.description = '',
-        this.price = ''
+        this.price = '',
+        this.edit = false
       )
     }
   }

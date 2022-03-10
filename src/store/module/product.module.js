@@ -21,7 +21,7 @@ const product = {
       state.products.splice(payload.index, 1, payload)
     },
     clearItems (state) { // clearing the items
-      state.items = {}
+      state.editProduct = { }
     }
 
   },
