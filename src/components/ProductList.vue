@@ -49,7 +49,7 @@ export default {
   },
   computed: {
     products () {
-      return this.$store.getters['product/showData']
+      return this.$store.getters['products/showData']
     }
 
   },
@@ -62,11 +62,11 @@ export default {
       this.productIndex = index
     },
     deleteIt () {
-      this.$store.dispatch('product/deleteProductList', this.productIndex)
+      this.$store.dispatch('products/deleteProductList', this.productIndex)
       this.showDeleteDialog = false
     },
     editProduct (item, index) {
-      this.$store.dispatch('product/editProductList', {
+      this.$store.dispatch('products/editProductList', {
         product: item.product,
         description: item.description,
         price: item.price,

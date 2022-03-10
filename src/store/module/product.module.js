@@ -1,4 +1,4 @@
-const product = {
+const products = {
   namespaced: true,
   state () {
     return {
@@ -53,4 +53,4 @@ const product = {
   }
 
 }
-export default product
+export default products

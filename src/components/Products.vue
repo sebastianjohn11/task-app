@@ -71,7 +71,7 @@ export default {
     },
     items () {
       console.log('working 1')
-      return this.$store.getters['product/showEdits'] // geters does not exist on type
+      return this.$store.getters['products/showEdits'] // geters does not exist on type
     }
   },
   watch: {
@@ -89,14 +89,14 @@ export default {
   methods: {
     submitForm () {
       if (this.edit === false) {
-        this.$store.dispatch('product/submitForm', {
+        this.$store.dispatch('products/submitForm', {
           product: this.product,
           description: this.description,
           price: this.price
         })
         this.close()
       } else {
-        this.$store.dispatch('product/submitEdit', {
+        this.$store.dispatch('products/submitEdit', {
           product: this.product,
           description: this.description,
           price: this.price,
@@ -107,7 +107,7 @@ export default {
       }
     },
     close () {
-      this.$store.dispatch('product/clearItems',
+      this.$store.dispatch('products/clearItems',
         this.showForm = false,
         this.product = '',
         this.description = '',
