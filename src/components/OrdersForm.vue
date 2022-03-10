@@ -49,7 +49,6 @@ export default {
       type: Boolean,
       default: false,
       required: true
-
     }
   },
 
@@ -57,9 +56,10 @@ export default {
     return {
       order: '',
       description: '',
-      price: ''
+      price: '',
+      edit: false
     }
-  }, // data end bracket
+  }, // data en
   computed: {
     showForm: {
       get: function () {
@@ -68,20 +68,54 @@ export default {
       set: function (value) {
         this.$emit('input', value)
       }
+    },
+    items () {
+      console.log('working 1')
+      return this.$store.getters.getEditedOrder // geters does not exist on type
     }
   },
+  watch: {
+    items: function (newValue) {
+      if (Object.keys(newValue).length !== 0) {
+        this.order = newValue.order
+        this.description = newValue.description
+        this.price = newValue.price
+        this.edit = true
+        this.index = newValue.index
+        this.showForm = true
+      }
+    }
+  },
+
   methods: {
     submitOrderForm () {
-      this.$store.dispatch('orderFormSubmit', {
-        order: this.order,
-        description: this.description,
-        price: this.price
-      })
-      this.close()
+      if (this.edit === false) {
+        this.$store.dispatch('orderFormSubmit', {
+          order: this.order,
+          description: this.description,
+          price: this.price
+        })
+        this.close()
+      } else {
+        this.$store.dispatch('submitEditForm', {
+          order: this.order,
+          description: this.description,
+          price: this.price,
+          index: this.index
+        })
+        this.close()
+        console.log('working 2')
+      }
     },
     close () {
-      this.showForm = false
+      this.$store.dispatch('clearItems',
+        this.showForm = false,
+        this.order = '',
+        this.description = '',
+        this.price = '',
+        this.edit = false
+      )
     }
-  }// methods end bracket
+  }// methods end
 }
 </script>
