@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import productModule from './module/product.module'
+import product from './module/product.module'
 import orderModule from './module/order.module'
 
 Vue.use(Vuex)
@@ -13,7 +13,7 @@ export default new Vuex.Store({
   actions: {
   },
   modules: {
-    productModule,
+    product,
     orderModule
   }
 })

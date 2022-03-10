@@ -55,7 +55,10 @@ export default {
     return {
       product: '',
       description: '',
-      price: ''
+      price: '',
+      id: ' ',
+      index: '',
+      edit: false
     }
   },
   computed: {
@@ -66,23 +69,49 @@ export default {
       set: function (value) {
         this.$emit('input', value)
       }
+    },
+    items () {
+      return this.$store.getters['product/showEdits'] // geters does not exist on type
+    }
+  },
+  watch: {
+    items: function (newValue) {
+      if (Object.keys(newValue).length !== 0) {
+        this.product = newValue.product
+        this.description = newValue.description
+        this.price = newValue.price
+        this.edit = true
+        this.index = newValue.index
+        this.showForm = true
+      }
     }
   },
   methods: {
     submitForm () {
-      this.$store.dispatch('submitForm', {
-        product: this.product,
-        description: this.description,
-        price: this.price
-      },
-      this.close()
-      )
+      if (this.edit === false) {
+        this.$store.dispatch('product/submitForm', {
+          product: this.product,
+          description: this.description,
+          price: this.price
+        })
+        this.close()
+      } else {
+        this.$store.dispatch('product/submitEdit', {
+          product: this.product,
+          description: this.description,
+          price: this.price,
+          index: this.index
+        })
+        this.close()
+      }
     },
     close () {
-      this.showForm = false
-      this.product = ''
-      this.description = ''
-      this.price = ''
+      this.$store.dispatch('product/clearItems',
+        this.showForm = false,
+        this.product = '',
+        this.description = '',
+        this.price = ''
+      )
     }
   }
 }
