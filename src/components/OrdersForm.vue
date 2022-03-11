@@ -57,7 +57,8 @@ export default {
       order: '',
       description: '',
       price: '',
-      edit: false
+      edit: false,
+      index: ''
     }
   }, // data en
   computed: {
@@ -80,6 +81,7 @@ export default {
         this.description = newValue.description
         this.price = newValue.price
         this.edit = true
+        this.index = newValue.index
         this.showForm = true
       }
     }
