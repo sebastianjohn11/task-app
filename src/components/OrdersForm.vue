@@ -70,8 +70,7 @@ export default {
       }
     },
     items () {
-      console.log('working 1')
-      return this.$store.getters.getEditedOrder // geters does not exist on type
+      return this.$store.getters['orders/getEditedOrder'] // geters does not exist on type
     }
   },
   watch: {
@@ -81,7 +80,6 @@ export default {
         this.description = newValue.description
         this.price = newValue.price
         this.edit = true
-        this.index = newValue.index
         this.showForm = true
       }
     }
@@ -90,25 +88,24 @@ export default {
   methods: {
     submitOrderForm () {
       if (this.edit === false) {
-        this.$store.dispatch('orderFormSubmit', {
+        this.$store.dispatch('orders/orderFormSubmit', {
           order: this.order,
           description: this.description,
           price: this.price
         })
         this.close()
       } else {
-        this.$store.dispatch('submitEditForm', {
+        this.$store.dispatch('orders/submitEditForm', {
           order: this.order,
           description: this.description,
           price: this.price,
           index: this.index
         })
         this.close()
-        console.log('working 2')
       }
     },
     close () {
-      this.$store.dispatch('clearItems',
+      this.$store.dispatch('orders/clearItems',
         this.showForm = false,
         this.order = '',
         this.description = '',
@@ -116,6 +113,6 @@ export default {
         this.edit = false
       )
     }
-  }// methods end
+  }
 }
 </script>

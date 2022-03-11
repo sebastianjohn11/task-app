@@ -49,7 +49,7 @@ export default {
   },
   computed: {
     orders () {
-      return this.$store.getters.getOrders
+      return this.$store.getters['orders/getOrders']
     }
   },
   methods: {
@@ -61,7 +61,7 @@ export default {
       this.orderIndex = index
     },
     deleteOrderConfirmed () {
-      this.$store.dispatch('deleteList', this.orderIndex)
+      this.$store.dispatch('orders/deleteList', this.orderIndex)
       this.showDeleteDialog = false
     },
     editOrderList (item, index) {

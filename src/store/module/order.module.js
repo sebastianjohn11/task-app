@@ -1,5 +1,5 @@
 const orders = {
-  namespaced: false,
+  namespaced: true,
   state () {
     return {
       orders: [],
@@ -9,7 +9,6 @@ const orders = {
   mutations: {
     orderFormSubmit (state, payload) {
       state.orders.push(payload)
-      console.log('u have acheverd it my boy')
     },
     deleteList (state, payload) {
       state.orders.splice(payload, 1)
@@ -20,7 +19,7 @@ const orders = {
     submitEditForm (state, payload) {
       state.orders.splice(payload.index, 1, payload)
     },
-    clearItems (state, payload) {
+    clearItems (state) {
       state.editedOrder = {}
     }
 
