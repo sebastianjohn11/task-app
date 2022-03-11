@@ -65,7 +65,7 @@ export default {
       this.showDeleteDialog = false
     },
     editOrderList (item, index) {
-      this.$store.dispatch('editList', {
+      this.$store.dispatch('orders/editList', {
         order: item.order,
         description: item.description,
         price: item.price,
