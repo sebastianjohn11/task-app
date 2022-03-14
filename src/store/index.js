@@ -1,14 +1,20 @@
-import { createStore } from 'vuex'
-import TaskModule from './module/task.module.js'
 
-const store = createStore({
-  modules: {
-    TaskModule
+import Vue from 'vue'
+import Vuex from 'vuex'
+import products from './module/product.module'
+import orders from './module/order.module'
+
+Vue.use(Vuex)
+
+export default new Vuex.Store({
+  state: {
   },
-  state () {
-    return {
-    }
+  mutations: {
+  },
+  actions: {
+  },
+  modules: {
+    products,
+    orders
   }
-
 })
-export default store

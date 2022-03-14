@@ -2,9 +2,9 @@ import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import About from '../views/About.vue'
-import ProductList from '../components/ProductList.vue'
-import ProductListOld from '../components/ProductListOld.vue'
 import Todo from '../views/Todo.vue'
+import Product from '../views/Product.vue'
+import Order from '../views/Order.vue'
 
 Vue.use(VueRouter)
 
@@ -20,19 +20,19 @@ const routes = [
     component: About
   },
   {
-    path: '/products',
-    name: 'Product',
-    component: ProductList
-  },
-  {
-    path: '/products-old',
-    name: 'ProductOld',
-    component: ProductListOld
-  },
-  {
     path: '/todo',
     name: 'Todo',
     component: Todo
+  },
+  {
+    path: '/product',
+    name: 'Product',
+    component: Product
+  },
+  {
+    path: '/order',
+    name: 'orders',
+    component: Order
   }
 ]
 
