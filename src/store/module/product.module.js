@@ -28,23 +28,16 @@ const products = {
 
   },
   actions: {
-    // submitForm (context, payload) {
-    // context.commit('addData', payload)
     submitForm (context, payload) {
       axios.post('https://vue-http-demo-99b91-default-rtdb.firebaseio.com/surveys.json', payload)
     }, //
-    addData (context) {
+    ShowDataInTable (context) {
       axios.get('https://vue-http-demo-99b91-default-rtdb.firebaseio.com/surveys.json')
         .then((response) => {
-          console.log(response)
           var newArray = Object.values(response.data)
           context.commit('addData', newArray)
-          // state.products = results
         })
-
-      // state.products.push(payload)
     },
-    //
     deleteProductList (context, payload) {
       context.commit('delete', payload)
     },

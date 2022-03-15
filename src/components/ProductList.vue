@@ -48,6 +48,9 @@ export default {
       showDeleteDialog: false
     }
   },
+  mounted () {
+    this.$store.dispatch('products/ShowDataInTable')
+  },
   computed: {
     products () {
       return this.$store.getters['products/showData']
