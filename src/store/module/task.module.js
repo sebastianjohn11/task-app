@@ -27,7 +27,6 @@ const task = {
     submitEdit (context, payload) {
       context.commit('editValues', payload)
     }
-
   },
   getters: {
     showTodos (state) {

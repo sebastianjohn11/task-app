@@ -1,3 +1,4 @@
+import axios from 'axios'
 const orders = {
   namespaced: true,
   state () {
@@ -7,6 +8,9 @@ const orders = {
     }
   },
   mutations: {
+    addData (state, results) {
+      state.orders = results
+    },
     orderFormSubmit (state, payload) {
       state.orders.push(payload)
     },
@@ -26,7 +30,15 @@ const orders = {
   },
   actions: {
     orderFormSubmit (context, payload) {
+      axios.post('https://vue-http-demo-99b91-default-rtdb.firebaseio.com/surveys.json', payload)
       context.commit('orderFormSubmit', payload)
+    },
+    ShowDataInTable (context) {
+      axios.get('https://vue-http-demo-99b91-default-rtdb.firebaseio.com/surveys.json')
+        .then((response) => {
+          var newArray = Object.values(response.data)
+          context.commit('addData', newArray)
+        })
     },
     deleteList (context, payload) {
       context.commit('deleteList', payload)
