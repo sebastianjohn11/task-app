@@ -13,6 +13,9 @@ const products = {
     addData (state, results) {
       state.products = results
     },
+    insertProducts (state, payload) {
+      state.products.push(payload)
+    },
     delete (state, payload) {
       state.products.splice(payload, 1)
     },
@@ -30,6 +33,7 @@ const products = {
   actions: {
     submitForm (context, payload) {
       axios.post('https://vue-http-demo-99b91-default-rtdb.firebaseio.com/surveys.json', payload)
+      context.commit('insertProducts', payload)
     }, //
     ShowDataInTable (context) {
       axios.get('https://vue-http-demo-99b91-default-rtdb.firebaseio.com/surveys.json')
