@@ -70,7 +70,6 @@ export default {
       }
     },
     items () {
-      console.log('working 1')
       return this.$store.getters['products/showEdits'] // geters does not exist on type
     }
   },

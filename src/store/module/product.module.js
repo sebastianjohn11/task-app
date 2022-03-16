@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 const products = {
   namespaced: true,
   state () {
@@ -8,7 +10,10 @@ const products = {
     }
   },
   mutations: {
-    addData (state, payload) {
+    addData (state, results) {
+      state.products = results
+    },
+    insertProducts (state, payload) {
       state.products.push(payload)
     },
     delete (state, payload) {
@@ -27,7 +32,15 @@ const products = {
   },
   actions: {
     submitForm (context, payload) {
-      context.commit('addData', payload)
+      axios.post('https://vue-http-demo-99b91-default-rtdb.firebaseio.com/surveys.json', payload)
+      context.commit('insertProducts', payload)
+    }, //
+    ShowDataInTable (context) {
+      axios.get('https://vue-http-demo-99b91-default-rtdb.firebaseio.com/surveys.json')
+        .then((response) => {
+          var newArray = Object.values(response.data)
+          context.commit('addData', newArray)
+        })
     },
     deleteProductList (context, payload) {
       context.commit('delete', payload)

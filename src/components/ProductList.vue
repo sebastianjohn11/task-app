@@ -1,5 +1,7 @@
+
 <template>
 <div>
+  <h3 v-if = "showMessage">No products to display,click the button to add products </h3>
  <v-btn @click="showProductForm" color="yellow" > ADD NEW PRODUCTS</v-btn>
   <v-data-table :headers="headers" :items="products" class="elevation-1">
       <template v-slot:body="{ items }">
@@ -47,11 +49,19 @@ export default {
       showDeleteDialog: false
     }
   },
+  mounted () {
+    this.$store.dispatch('products/ShowDataInTable')
+  },
   computed: {
     products () {
       return this.$store.getters['products/showData']
+    },
+    showMessage () {
+      if (this.products.length === 0) {
+        return true
+      }
+      return false
     }
-
   },
   methods: {
     showProductForm () {
