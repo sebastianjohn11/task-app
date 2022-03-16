@@ -1,5 +1,6 @@
 <template>
     <div>
+      <h2 v-if="showMessage">please add new orders by clicking the button bellow</h2>
         <v-btn @click="showOrderForm" color="pink" > Add NEW ORDERS </v-btn>
         <v-data-table :headers="headers" :items="orders" class="elevation-1">
       <template v-slot:body="{ items }">
@@ -47,9 +48,18 @@ export default {
       orderIndex: ''
     }
   },
+  mounted () {
+    this.$store.dispatch('orders/ShowDataInTable')
+  },
   computed: {
     orders () {
       return this.$store.getters['orders/getOrders']
+    },
+    showMessage () {
+      if (this.orders.length === 0) {
+        return true
+      }
+      return false
     }
   },
   methods: {
